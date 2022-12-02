@@ -68,32 +68,30 @@ export default {
       isEdit: false,
       displayConfirmation: false,
       productDelete:{}
-
     }
   },
+
   created() {
     this.loadData()
-
-
-  },mounted() {
-
   },
-  methods: {
 
+  mounted() {
+  },
+
+  methods: {
     async runAction() {
-      if (this.isEdit) {          //editproduct
-        // console.log()
+      if (this.isEdit) {
         await this.updateProduct(this.product);
         await this.hideDialog();
         await this.loadData();
-
-      } else {                //createproduct
+      } else {
         await this.createProduct(this.product);
         await this.hideDialog();
         await this.loadData();
 
       }
     },
+
     is_validate(){
       return this.is_empty()
     },
@@ -109,9 +107,11 @@ export default {
     closeAction() {
       this.is_viable = false;
     },
+
     hideDialog() {
       this.is_viable = false;
     },
+
     editProduct(data) {
       this.isEdit = true;
       this.changeheader = 'Edit Product';
@@ -127,40 +127,48 @@ export default {
         body: data,
       });
     },
+
     async updateProduct(data) {
       await $fetch(`${this.linkFetchData}/${data.id}`, {
         method: 'PUT',
         body: data,
       });
     },
+
     async deleteProduct(data) {
       await $fetch(`${process.env.BASE_URL_API}/api/v1/products/${data.id}`, {
         method: 'DELETE',
       });
     },
+
      confirmDeleteProduct(data) {
        this.displayConfirmation = true;
        this.productDelete = data;
     },
+
     closeConfirmation() {
       this.displayConfirmation = false;
     },
+
     async confirmation() {
       this.displayConfirmation = false;
       await this.deleteProduct(this.productDelete);
       await this.loadData();
 
     },
+
     hideHandler(value) {
       if (!value) {
         this.is_viable = false;
       }
     },
+
     hideHandlerDelete(value) {
       if (!value) {
         this.displayConfirmation = false;
       }
     },
+
     openNew() {
       this.isEdit = false;
       this.is_viable = true;
@@ -172,19 +180,15 @@ export default {
     fetchData() {
       return $fetch(this.linkFetchData);
     },
+
     async loadData() {
       const res = await this.fetchData();
       if (res) {
         this.users = res;
       }
     }
-
   }
-
 }
 
 </script>
 
-<style scoped>
-
-</style>
